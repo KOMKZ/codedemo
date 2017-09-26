@@ -82,7 +82,67 @@
 	// 报错
 	let a = 1;
 	var a = 1;
+
+	// 不能对常量进行赋值
+	const PI = 1;
+	PI = 1;
+
+	// 常量必须声明的时候同时初始化
+	const PI;
+
+
+	// 声明一个常量对象
+	const const_obj = {
+		key : 'abc'
+	}
+	console.log(const_obj);
+	// 对象的属性可以变化
+	const_obj.key = 'cde';
+	console.log(const_obj);
+	// 重新改变这个对象的地址时不允许的
+	let var_obj = {
+		key : 'abc'
+	}
+	// 抛异常
+	const_obj = var_obj;
+
+	// 如果希望定义的对象属性什么的完全不可变，可以如下使用：
+	const const_obj = Object.freeze({
+		key : 'abc'
+	});
+
+	console.log(const_obj); //Object {key: "abc"}
+	// 严格模式下下面的句子会抛错
+	const_obj.key = 'cde';
+	console.log(const_obj); //Object {key: "abc"}
+
+	// let命令、const命令、class命令声明的全局变量，不属于顶层对象的属性
+	var a = 1;
+	console.log(window.a); // 1
+
+	let b = 2;
+	console.log(window.b); // undefined
+
+	// 方法一 获取全局对象
+	(typeof window !== 'undefined'
+	   ? window
+	   : (typeof process === 'object' &&
+		  typeof require === 'function' &&
+		  typeof global === 'object')
+		 ? global
+		 : this);
+
+	// 方法二 获取全局对象
+	var getGlobal = function () {
+	  if (typeof self !== 'undefined') { return self; }
+	  if (typeof window !== 'undefined') { return window; }
+	  if (typeof global !== 'undefined') { return global; }
+	  throw new Error('unable to locate global object');
+	};
 	*/
+
+
+
 
 
 
