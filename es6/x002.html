@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+	/*
+	// let 声明的变量只在自己的block中有效，
+	{
+		let a = 1;
+		var b = 1;
+	}
+	console.log(b); // 1
+	console.log(a); // 抛未定义
+
+	// let 声明的变量只在自己的block中有效，
+	for(let i = 0;i < 3; i++){
+		console.log(i); // 0, 1, 2,
+	}
+	console.log(i); // 抛异常，因为i 只在for中的代码块有效
+
+	// 发现输出一直都是10， 简单来说就是匿名函数的i 指向的全局的i，所以最终i的值是10,所以就是10，
+	var a = [];
+	for(var i = 0; i < 10; i++){
+		a[i] = function(){
+			console.log(i);
+		}
+	}
+	a[6](); // 10
+
+
+	// 使用闭包来解决上述的问题
+	var a = [];
+	for(var i = 0; i < 10; i++){
+		a[i] = (function(i){
+			return function(){
+				console.log();
+			}
+		})(i)
+	}
+	a[6](); // 6
+
+
+	// 而如果使用了 let申明就完美了， 主义i变量每次都会被重新声明，因为是在两个作用域中的东西
+	// js会自己记住上次的值
+	var a = [];
+	for(let i = 0; i < 10; i++){
+		a[i] = function(){
+			console.log(i);
+		}
+	}
+	a[6]();// 6
+
+	// 设置循环变量的那部分是一个父作用域，而循环体内部是一个单独的子作用域。
+	// 可以通过以下来证明
+	for(let i = 0; i < 10; i++){
+		let i = 'abc'
+		console.log(i); // abc被输入10次，这个block中，和上面的i是两个变量，如果是同个作用域, let是不通过的
+	}
+
+	console.log(a); // undefined, a 能够提前使用，称为变量提升
+	var a = 1;
+
+	console.log(b); // 抛异常， let 一定要先声明， 再使用
+	let b = 1;
+
+
+	// 在block中使用let声明了变量，会在该block占据该变量，任何提前使用都不行
+	var tmp = 1;
+	if(1){
+		tmp = 2;
+		let tmp = 3;// 抛异常， block中， tmp已经形成封闭作用域
+	}
+
+	// let不允许在相同作用域内，重复声明同一个变量。
+	// 报错
+	let a = 1;
+	var a = 1;
+	*/
+
+
+
+
+
+</script>
+</html>
