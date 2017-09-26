@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+	/*
+	-- 数组的解构
+
+	// 按照一定模式，从数组和对象中提取值，对变量进行赋值，这被称为解构
+	// let 声明之后的变量不能重复声明
+	let [a, b, c] = [1, 2, 3];
+	console.log(a, b, c);
+
+	// 变形
+	let [a, [b, c]] = [1, [2, 3]];
+	console.log(a, b, c);
+
+	// 变形
+	let [, b] = [, 2];
+	console.log(b);
+
+	let [a, ...b] = [1, 2, 3];
+	console.log(a); // 1
+	console.log(b); // [2, 3]
+
+	// 解构可以使用默认值， undefined不属于能够正确解构， es6会使用 === 来严格判断
+	let [a, b = true, c = 1] = [false, undefined, null];
+	console.log(a); // false
+	console.log(b); // true
+	console.log(c); // null
+
+	// 默认值如果是一个函数，则调用是惰性的， 只有 [1][0] === undefined 时 get_a_val 函数才会被调用
+	function get_a_val(){
+		return 1;
+	}
+	let [a = get_a_val()] = [2];
+	console.log(a);
+	*/
+
+	/**
+	-- 对象的解构
+
+	// 解构对象的方式，必须使用对象属性来确定需要解构的变量，=
+	let {name : myname, ages : myage} = {name : 'kz', age: 23};
+	console.log(myname); // kz
+	console.log(myage); // undefined
+
+
+	// 对象嵌套解构
+	let person = {
+		name : [
+			"kitral.zhong",
+			{
+				f_name : 'kitral',
+				l_name : 'zhong'
+			}
+		]
+	}
+	let {name: [full_name, {f_name : first_name, l_name : last_name}]} = person;
+	console.log(full_name); // kitral.zhong
+	console.log(first_name); // kitral
+	console.log(last_name); // zhong
+
+	// 注意 let中的name是模式，不被赋值， 如果箱被赋值，使用name，隔开表示将结构的属性赋值过去
+	 let person = {
+		 name : [
+			 "kitral.zhong",
+			 {
+				 f_name : 'kitral',
+				 l_name : 'zhong'
+			 }
+		 ]
+	 }
+	 let {name, name: [full_name, {f_name : first_name, l_name : last_name}]} = person;
+	 console.log(full_name); // kitral.zhong
+	 console.log(first_name); // kitral
+	 console.log(last_name); // zhong
+
+	 // 注意 let中的name是模式，不被赋值， 如果箱被赋值，使用name，隔开表示将结构的属性赋值过去
+	  let person = {
+		  name : [
+			  "kitral.zhong",
+			  {
+				  f_name : 'kitral',
+				  l_name : 'zhong'
+			  }
+		  ]
+	  }
+	  let {name, name: [full_name,  {f_name, f_name : first_name, l_name : last_name}]} = person;
+	  console.log(full_name); // kitral.zhong
+	  console.log(first_name); // kitral
+	  console.log(last_name); // zhong
+	  console.log(f_name);
+
+
+	  // 对象的解构可以用于赋值, 整体需要括号括起来, 否则会抛异常
+	   //代码的写法会报错，因为 JavaScript 引擎会将{x}理解成一个代码块，从而发生语法错误。只有不将大括号写在行首，避免 JavaScript 将其解释为代码块，才能解决这个问题。
+
+	  let person = {};
+	  ( {name : person.name} = {name : "kitral"} );
+	  console.log(person);
+
+
+	  // 也可以使用默认值
+	 let person = {};
+	 ( {name : person.name = 'kitral.zhong'} = {name : undefined} );
+	 console.log(person);
+
+	 // 注意这里结构的顺序，如果没有先赋值info， 则会导致name结构的异常
+	 let person = {};
+	 ({info : person.info, info: {name : person.info.name}} = {info : {name : 'kz'}});
+	 console.log(person); // object
+
+	 // 如果不指定属性来结构，则会按照顺序，注意对象的顺序是会发生改变的
+	 let person = {name : 'kz', 'age' : 18};
+	 let {name, age} = person;
+	 console.log(name, age); // kz 18
+
+	 // 对数组使用成对象进行解构
+	 let arr = [1, 2, 3];
+	 let {0: first, [arr.length - 1]: last} = arr
+	 console.log(first, last); // 1 3
+
+	 // 字符串解构，
+	 let [a, b] = 'ab';
+	 a = 'c';
+	 console.log(a, b); // a b
+
+	 //字符串使用对象解构
+	 let {length : len} = 'ab';
+	 console.log(len); // 2
+
+	 // boolean / number 类型会被变成 对象 在结构前
+	 let {toString : s}  = 123;
+	 let {toString : b} = true;
+	 console.log(s === Number.prototype.toString); // true
+	 console.log(b == Boolean.prototype.toString); // true
+
+	 // 函数参数也会参见到解构过程公，时间过程等同于
+	 // let [x, y] = [1, 2]
+	 function a([x, y]){
+		 return [x, y];
+	 }
+	 console.log(a([1, 2])); // [1, 2]
+	 console.log(a([1, ]));  // [1, undefined]
+
+
+	 // 参数解构也可以使用默认值
+	 function a([x = 0, y = 0]){
+		 return [x, y];
+	 }
+	 console.log(a([])); // [0, 0]
+	 console.log(a()) // 抛异常 无法结构，解构的右边没有数据，
+
+	 // 可以对参数定义默认值， 注意上面是对解构的变量x，y定义默认值
+	 function a([x = 0, y = 0] = []){
+		 return [x, y];
+	 }
+	 console.log(a()); // [0, 0], 不乎抛异常了，相当于 a([])
+
+
+	 function a([x, y] = [1, 0]){
+		 return [x, y];
+	 }
+	 console.log(a()); // [1, 0]
+	 console.log(a([2, ])) // [2, undefined], 因为传入的 [2, ] ,y解构失败，又没有默认值，所以是undefined
+
+	 // 对象参数参与解构
+	 function a({x : x = 1, y : y = 2} = {}){
+		 return {x : x, y : y};
+	 }
+	 console.log(a()); // Object {x: 1, y: 2}
+
+	 function a({x: x, y: y} = {x: 1, y: 2}){
+		 return {x: x, y: y};
+	 }
+	 console.log(a()); //Object {x: 1, y: 2} 注意等同于 a({x: 1, y: 2})
+	 console.log(a({})); // {x: undefined, y: undefined}, 因为 let {x: x, y: y} = {}
+
+	 // 用途
+	 // 交换变量值
+	 let [x, y] = [1, 2];
+	 console.log(x, y); // 1, 2
+	 [x, y] = [y, x];
+	 console.log(x, y);  // 2, 1
+
+
+	 // 对函数的返回值进行结构，
+	 function get_info(){
+		 return {
+			 name : 'kz'
+			 ,age : 12
+		 };
+	 }
+	 let {name, age} = get_info();
+	 console.log(name, age);
+
+	 // 函数参数的定义
+	 // 还可以用于参数默认值定义
+	 // 还可以用于提取json数据
+	 // 还可以用与
+	 */
+
+	const map = new Map();
+	map.set('f_name', 'kitral');
+	map.set('l_name', 'zhong')
+	for(let [key, val] of map){
+		console.log(key, val);
+	}
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>
