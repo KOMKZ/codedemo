@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+
+    </body>
+    <script>
+    /*
+    todo:
+    '\u01D1'.normalize() === '\u004F\u030C'.normalize()
+// true
+normalize方法可以接受一个参数来指定normalize的方式，参数的四个可选值如下。
+
+NFC，默认参数，表示“标准等价合成”（Normalization Form Canonical Composition），返回多个简单字符的合成字符。所谓“标准等价”指的是视觉和语义上的等价。
+NFD，表示“标准等价分解”（Normalization Form Canonical Decomposition），即在标准等价的前提下，返回合成字符分解的多个简单字符。
+NFKC，表示“兼容等价合成”（Normalization Form Compatibility Composition），返回合成字符。所谓“兼容等价”指的是语义上存在等价，但视觉上不等价，比如“囍”和“喜喜”。（这只是用来举例，normalize方法不能识别中文。）
+NFKD，表示“兼容等价分解”（Normalization Form Compatibility Decomposition），即在兼容等价的前提下，返回合成字符分解的多个简单字符。
+     */
+
+    /*
+    // a de unicode 写法， 注意部分编码字符必须用两个双字节来标识，如 𠮷
+    console.log("\u0061");
+    console.log("\uD842\uDFB7");
+    // 可以使用以下写法等同 {} 包括起来
+    console.log("\u{u20bb7}");
+    console.log('\u{1F680}' === '\uD83D\uDE80');
+
+
+    // js内部使用utf-16存储字符，固定2个字节，如果字符超过2个字节，一般来说会用4个字节，即两个字符
+    var s = '𠮷';
+    var ansi_c = 'a';
+    console.log(s.length);  //2
+    console.log(ansi_c.length); // 1
+    // charAt 会怪怪的
+    console.log(ansi_c.charAt(0)); // a
+    console.log(s.charAt(0)); // 无法正常显示
+    var mix = '𠮷a';
+    console.log(mix.charCodeAt(0)); //55362
+    console.log(mix.charCodeAt(1)); // 57271
+    console.log(mix.charCodeAt(2)); // 97
+
+    // 对于mix的正确计算可以使用
+    console.log(mix.codePointAt(0)); //134071 , 可以使用 toString covert to 16x
+    console.log(mix.codePointAt(1)); // 57271
+    console.log(mix.codePointAt(2)); // 97
+
+    // 遍历这种字符的最好使用for of 来遍历
+    for(let c of mix){
+        console.log(c); // 𠮷 a
+    }
+
+    // codePointAt 用于测试一个字符到底时是四个字节还是2个字节
+    function is32Bit(c){
+        return c.codePointAt(0) > 0xffff;
+    }
+    console.log(is32Bit('𠮷')); // true
+    console.log(is32Bit('a')); // false
+
+
+    // 可以从码点转为字符 es6
+    console.log(String.fromCodePoint(0x20BB7));
+    // es5的方法不行，范围只能在 0xffff 中
+    console.log(String.fromCharCode(0x20bb7));
+    // 可以通过拼接的方法来实现 fromCharCode 这个方法会将code连接起来
+    console.log(String.fromCharCode(
+        55362,
+        57271
+    ) === '𠮷'); // true
+
+    // es6 遍历 string 最大优点时可以实现 0xffff的字符
+
+    // 几个好用的字符串方法
+    let s = 'hello world';
+    console.log(s.startsWith('hello')); // true
+    console.log(s.startsWith('hello', 0)); // true search from position 0
+    console.log(s.startsWith('hello', 1)); // false search from position 1
+
+    console.log(s.endsWith('world')); // true
+    console.log(s.endsWith('world', s.legnth)); // true, search from revert position 0
+    console.log(s.endsWith('world', 1)); // false
+    console.log(s.includes('o w')); // true
+    console.log(s.includes('o w', 1)); // true, same to startsWith
+
+    console.log('a'.repeat(3)); // aaa
+
+    // 字符串补全
+    console.log('a'.padStart(3)); // '  a', 默认时空格补全
+    console.log('a'.padStart(3, 123)); // 12a  123 -> 12 + a = 12a
+    console.log('a'.padEnd(3)); // 'a  '
+    console.log('a'.padEnd(3, 123)); // a12   123 -> a + 12 = a12
+
+    // 补全的一种巧妙的用法
+    console.log('09-12'.padStart(10, "YYYY--MM-DD"));// YYYY-09-12
+
+    // 下面这种方法是不是很方便
+    let person = {
+        name : 'kitralzhong',
+        age : 24
+    }
+    let intro_str = `I am ${person.name}, I am ${person.age} this year;`
+    console.log(intro_str);
+
+    // 单行 空格都会被保留
+    console.log(`abc    abc\nabc`);
+    console.log(`""\`\``);
+
+    // 里面 $ {} 扩起来的内容都是表达式，
+     function a(){
+         return 1;
+     }
+     console.log(`${a() + 1}`);
+
+
+     // 模板可以嵌套
+     const tmpl = addrs => `
+       <table>
+       ${addrs.map(addr => `
+         <tr><td>${addr.first}</td></tr>
+         <tr><td>${addr.last}</td></tr>
+       `).join('')}
+       </table>
+     `;
+     const data = [
+     { first: '<Jane>', last: 'Bond' },
+     { first: 'Lars', last: '<Croft>' },
+     ];
+     console.log(tmpl(data));
+
+    */
+    // 通常来说字符串模板都是定义好，但是变量需要传递进去，传递变量进去有两种方法
+    let str = 'return ' + '`Hello ${name}!`';
+    let func = new Function('name', str);
+    console.log(func('kitralzhong'));
+
+    let str02 = '(name) => `hello ${name}`';
+    let func02 = eval.call(null, str02);
+    console.log(func02('kitralzhong'));
+
+
+
+
+    </script>
+</html>
