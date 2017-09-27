@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	/*
+	// 具有iterator接口的对象也能用于初始化
+	 const s = new Set([1,2,2,2,3]);
+	 console.log(s);   // {1, 2, 3}
+
+	 let s = new Set();
+	 [12,23,3,3,12,32,1].forEach(x => s.add(x));
+	 console.log(s); // {12, 23, 3, 32, 1}
+	 console.log(s.size); // 5
+
+
+	 let s = new Set();
+	 [12,23,3,3,12,32,1].forEach(x => s.add(x));
+	 console.log(s); // {12, 23, 3, 32, 1}
+	 console.log(s.size); // 5
+	 console.log([...s]); // [12, 23, 3, 32, 1]
+
+	 // 可用于去除数组的重复成员
+
+	 // js中 NaN 是不等于自己的， 但是set中认为是同一个
+	 let s = new Set([NaN, NaN]);
+	 console.log(s); //{NaN}
+
+	 // set不会发生类型装换， 1 和 '1' 是两个不同的元素
+	 s = new Set([1, '1']);
+	 console.log(s.size); // 2
+
+	 // 两个空对象也是不同的的对象， 所以在set中也是两个
+
+	 // set 的常用方法
+	 let set = new Set();
+	 set.add(1);
+	 set.delete(1);
+	 set.size
+	 set.has(1);
+	 set.clear();
+
+	 let obj = {};
+	 // 判断对象是否有该属性
+	 obj['abc'];
+	 // 判断集合是否有该值
+	 obj.has('abc');
+
+
+	 // covert to set to array
+	 let s = new Set([1,2,3]);
+	 let a = Array.from(s);
+	 let a1 = [...s];
+	 console.log(s);
+	 console.log(a);
+	 console.log(a1);
+
+	 // 遍历 set ，主义遍历的顺序就是插入的顺序
+	 let s = new Set([1, 2, 3]);
+	 // set 没有键名，所以以下两个方法一致
+	 console.log(s.keys());
+	 console.log(s.values());
+	 // 返回 k-v迭代器 因为没有键的概念，所以，k，v都是一样的
+	 for(let [k, v] of s.entries()){
+		 console.log(k, v);
+	 }
+
+	 s.forEach((key, val) => console.log(key, val));
+
+	 // 集合运算
+	 let a = new Set([1, 2, 3]);
+	 let b = new Set([4, 2, 3]);;
+	 // 并集
+	 console.log(new Set([...a, ...b])); // {1, 2, 3, 4}
+	 // 交集
+	 console.log(new Set([...a].filter(
+		 (a_v) => b.has(a_v)
+	 ))); // {2, 3}
+	 // 差集 a - b
+	 console.log(new Set([...a].filter(
+		 (a_v) => !b.has(a_v)
+	 ))); // {1}
+
+
+	 // 修改set数据，没有直接的方法，只能遍历
+	 let s = new Set([1, 2, 3]);
+	 console.log(s);// {1, 2, 3}
+	 s = new Set([...s].map(v => v * 2));
+	 console.log(s); // {2, 4, 6}
+
+	 // 或者是
+	 s = new Set(Array.from(s, v => v * 2))
+	 console.log(s); // {4, 8, 12}
+	 */
+
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>
