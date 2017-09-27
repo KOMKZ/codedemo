@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	/*
+	// es6 构造regex对象 更加智能了，
+	let regexp = new RegExp(/abc/, 'g'); // es5正确
+	regexp = new RegExp(/abc/g); // es5 正确
+	regexp = new RegExp(/abc/ig, 'g'); // es5 抛错不允许，但是es6 允许
+
+	// 字符串对象共有4个方法，可以使用正则表达式：match()、replace()、search()和split()。
+
+	// ES6 将这4个方法，在语言内部全部调用RegExp的实例方法，从而做到所有与正则相关的方法，全都定义在RegExp对象上。
+
+	// es6 的正则能够正确识别 4个字节的字符，也就是能够识别原先es5认为是2个长度的单个字符
+	// 所以楼下代码会产生一个false
+   let s = /^\uD83D/u.test('\uD83D\uDC2A');
+   console.log(s);
+   s = /^\uD83D/.test('\uD83D\uDC2A');
+
+
+   var s = '𠮷';
+  console.log(/^.$/.test(s)); // false
+  // 该字符 四个字节，需要加上u 修饰符才能正确识别
+  console.log(/^.$/u.test(s)); // true
+
+  // 正则表达式中使用了unicode字符也需要加上u 修饰附，否则无法正确识别
+  console.log(/\u61/.test('a')); // false ,unicode 字符需要用{}括起来
+  console.log(/\u{61}/.test('a')); // false, 括起来还不够，需要家u修饰符
+  console.log(/\u{61}/u.test('a')); // true,
+  console.log(/\u{20BB7}/u.test('𠮷')); // true, es6 能正确识别4个字节的字符
+
+  // 如果字符串中含有uncicode字符，建议都加上u修饰符
+
+  // \S 的作用是匹配所有不是空格的字符，
+  let result = '𠮷𠮷'.match(/[\s\S]/g);  // 这样些会匹配成4个字符， 只有u参数才会变成2个字符
+  console.log(result);
+  console.log('𠮷𠮷'.length);
+
+  // regexp text 不包括修饰符
+  console.log(/abc/ig.source); // abc
+  console.log(/abc/igu.flags); // giu
+	 */
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>
