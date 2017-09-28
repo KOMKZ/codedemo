@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<!-- 绑定到html属性，同时使用v-html输出为html内容， -->
+	<div id="demo" v-html="html">
+
+	</div>
+	<!-- 非html内容，即普通文本绑定 -->
+	<div id="demo01">{{html}}</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+	/**
+
+	 */
+	var vm = new Vue({
+		data : {
+			html : "<p>hello world</p>"
+		},
+		el : '#demo'
+	});
+
+	var vm01 = new Vue({
+		data : {
+			html : "<p>hello world</p>"
+		},
+		el : '#demo01'
+	});
+
+
+
+
+
+</script>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<span >{{message}}</span>
+		<hr>
+		<!-- v-once 指令 代表一次插入值，之后都不动态改变 -->
+		<span v-once>{{message}}</span>
+		<!-- 绑定支持js表达式 -->
+		<p>{{value + 1}}</p>
+		<!-- 语句不是表达式，这里会抛错 -->
+		<!-- 如 Math 和 Date 。你不应该在模板表达式中试图访问用户定义的全局变量。 -->
+		<!-- <p>{{ var value = 2}}</p> -->
+
+		<p>{{value}}</p>
+	</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+	/**
+
+	 */
+	let data = {
+		message : 'hello world', // span 上绑定的message会及时随着这里的改变而动态渲染
+		value : 1
+	}
+	var vm = new Vue({
+		el : '#app',
+		data : data
+	});
+
+
+
+	// 只有vm节点才会改变，v-once那个不会
+	data.message = 'hello world2';
+
+
+
+
+
+
+
+</script>
+</html>
