@@ -96,7 +96,89 @@
 	 // 或者是
 	 s = new Set(Array.from(s, v => v * 2))
 	 console.log(s); // {4, 8, 12}
+
+	 // 对象的键只能用字符串，但是Map可以支持更多类型的键类型，如下
+	 const m = new Map();
+	 const person = {name: 'kitral'};
+	 m.set(person, 'kz')
+	 console.log(m.get(person)); // kz
+	 console.log(m.has(person)); // true
+	 m.delete(person);
+
+	 // 任何具有 Iterator 接口、且每个成员都是一个双元素的数组的数据结构（详见《Iterator》一章）都可以当作Map构造函数的参数
+	 let m = new Map([
+		 ['name', 'kz']
+		 ,['age', 18]
+	 ]);
+	 console.log(m); // {"name" => "kz", "age" => 18}
+
+	 m = new Map(new Set([
+		 ['name', 'kz']
+		 ,['age', '18']
+	 ]));
+	 console.log(m); // {"name" => "kz", "age" => "18"}
+
+	 m = new Map(m);
+	 console.log(m); // {"name" => "kz", "age" => "18"}
+
+	 // 读取未知的键将会返回undefined
+	 console.log(m.get('abc')); // undefined
+	 // map 的遍历方法同 set 一样，但是map和key 不同的是map有键，set键值是一样的
+
+	 // 将map结构变成array 结构，使用 ... 方法快速完成
+	 let m = new Map([['name', 'kz'],['age', 24]]);
+
+	 let a = [...m];
+	 console.log(a); // [['name', 'kz'],['age', 24]]
+	 a = [...m.keys()];
+	 console.log(a); // ["name", "age"]
+	 a = [...m.values()];
+	 console.log(a); // ["kz", 24]
+	 a = [...m.entries()];
+	 console.log(a); // [['name', 'kz'],['age', 24]]
+
+	// 还可以参考set 使用 map， filter 的方法来实现转换和过滤
+
+
+	// map forEach 的方法，注意有第三个参数
+	let m = new Map([
+		['name', 'kz']
+		,['age', 12]
+	]);
+	// m 是 map实力本身
+	m.forEach(function(v , k, m){
+		console.log(k, v, m);
+
+	});
+
+	// map to json
+	// JSON.stringify(strMapToObj(strMap));
+	function strMapToObj(m){
+		let obj = {};
+		for(let [k, v] of m.entries()){
+			obj[k] = v;
+		}
+		return obj;
+	}
+	let m = new Map([
+		['name', 'kz']
+		,['age', '14']
+	]);
+	console.log(JSON.stringify(strMapToObj(m)));
+
+
+	// json to map
+	function objToMap(obj){
+		let m = new Map();
+		for(let i  of Object.keys(obj)){  // 写成obj是会报错的
+			m.set(i, obj[i]);
+		}
+		return m;
+	}
+	var json_str = '{"name" : "kz", "age" : 12}';
+	console.log(objToMap(JSON.parse(json_str))); //  {"name" => "kz", "age" => 12}
 	 */
+
 
 
 
