@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+	/*
+	// ES6 允许直接写入变量和函数，作为对象的属性和方法。这样的书写更加简洁。
+	let name = 'kz';
+	let obj = {name};
+	console.log(obj); //  {name: "kz"}
+
+	// 除了属性名可以简写，方法也可以简写
+	let obj = {
+		method(){
+			return 1;
+		}
+	};
+	// 等价于
+	let obj2 = {
+		method : function(){
+			return 1;
+		}
+	}
+
+	// es5 使用大括号定义对象的时候，属性名不能使用表达式，但是es6是支持的
+	let obj = {
+		a : 'a',
+		['a' + 'b'] : 'ab',
+		['m' + 'ethod'](a){
+			return a;
+		}
+	};
+	console.log(obj); // {a: "a", ab: "ab", method: function}
+
+	// 注意，属性名表达式与简洁表示法，不能同时使用，会报错。
+
+	let attr = 'abc';
+	let obj = {[attr]}; // 什么怪异的写法，肯定是不行拉
+
+
+		// 函数的name属性，返回函数名。对象方法也是函数，因此也有name属性。
+
+		function a(){
+			return 1;
+		};
+		let obj = {
+			b : function(){
+				return 2;
+			}
+		};
+		console.log(a.name); // a
+		console.log(obj.b.name); // name
+
+		// 如果对象的方法使用了取值函数（getter）和存值函数（setter）
+		let obj = {
+			_a : 1,
+			get a(){
+				return this._a;
+			},
+			set a(x){
+				this._a = x;
+			}
+		}
+		console.log(obj.a); // 1
+		obj.a = 2;
+		console.log(obj.a); // 2
+
+		// 此时获取 name 值需要如下：
+		const descriptor = Object.getOwnPropertyDescriptor(obj, 'a');
+		console.log(descriptor.get.name); // get a
+		console.log(descriptor.set.name); // set a
+
+		// es6的改变
+		console.log(Object.is('a', 'a')); // true es5 === true,
+		console.log(Object.is({}, {})); // false es5 === false
+		console.log(Object.is(NaN, NaN)); // true es5 === false,
+		console.log(Object.is(+0, -0)); // false es5 === true
+
+		// 合并对象, 后者会覆盖前者
+		let target = {a : 1};
+		let s1 = {b : 1};
+		let s2 = {c : 1};
+		Object.assign(target, s1, s2);
+		console.log(target); // {a: 1, b: 1, c: 1}
+
+		// 测试嵌套属性是否能够正确覆盖
+		let target = {
+			a : {
+				a_1 : {
+					a_1_1 : 'a_1_1'
+				},
+				a_2 : {
+
+				}
+			}
+		};
+		let s1 = {
+			a : {
+				a_1 : {
+					a_1_2 : 'a_1_2'
+				}
+			}
+		};
+		Object.assign(target, s1);
+		console.log(s1); // 打印出来说明他智慧做第一层级属性的覆盖，嵌套层级都是不会检测的
+		// 有一些函数库提供Object.assign的定制版本（比如 Lodash 的_.defaultsDeep方法），可以解决浅拷贝的问题，得到深拷贝的合并。
+
+
+		// 浅拷贝，覆盖的是引用， 修改也会导致源的修改
+		let target = {
+			a : {
+				name : 'hello'
+			}
+		}
+		let source = {
+			a : {
+				name : 'kz'
+			}
+		}
+		Object.assign(target, source);
+		console.log(target.a.name); // kz
+		target.a.name = 'abc';
+		console.log(source.a.name); // abc , 传递的是引用
+	 */
+
+
+
+
+
+
+
+</script>
+</html>
