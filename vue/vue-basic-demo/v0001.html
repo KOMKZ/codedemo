@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+	/**
+	// 初始化vue示例，会初始化，vue 的data对象，data对象是动态响应
+	let data = {
+		app_info : {
+			name : "vue-basic-demo"
+		}
+	}
+	var app = new Vue({
+		data: data
+	});
+	// data对象都是会代理该设定的对象到vue实例
+	console.log(data.app_info === app.app_info ); // true
+	// data 对象改变，都是直接响应，因为本来就是同个地址的东西
+	data.app_info.name = 'vue-basic-demo-0.0.1';
+	console.log(app.app_info.name); // 'vue-basic-demo-0.0.1
+	// 反之也是
+	app.app_info.name = 'vue-basic-demo';
+	console.log(data.app_info.name); // vue-basic-demo
+
+	// 主义version是后面添加的属性，不会引起render的重新渲染，只有初始化的属性才会和render保持一致
+	// 但是你可以在初始化的时候设置为undefined/null
+	app.app_info.version = '0.0.1';
+	console.log(data.app_info.version);
+
+	// app实例中的data是代理外部的data，那么如何直接方位这个内置的data， 使用$
+	console.log(app.$data == data); // true
+	// $el 属性是 实例直接挂载的节点
+
+
+	// 实例的初始化有许多流程，其中有流程如钩子如下, created 钩子能够控制实例创建完成之后的动作，如下：
+	var app = new Vue({
+		data : {
+			name : 'demo'
+		},
+		created: function(){
+			// this point to app instance
+			console.log(this.name) // demo
+		}
+	});
+
+
+	 */
+
+
+
+
+</script>
+</html>
