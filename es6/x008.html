@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+
+</body>
+	<script>
+
+
+
+
+
+
+	/*
+
+	let p = Promise.reject("error");
+	p.then(null, (err) => console.log(err));
+
+
+	// Promise.reject的方法会
+	let obj = {
+		then : function(resolve, reject){
+			reject('error');
+		}
+	}
+	p = Promise.reject(obj);
+	p.then(null, (err) => console.log(err == obj)); // true
+
+	
+	// 有时需要将现有对象转为Promise对象，Promise.resolve方法就起到这个作用。
+
+	// Promise.resolve 的参数说明：
+	// 1. 如果参数是promise,则直接返回该promise
+	let p = new Promise(function(resolve, reject){
+
+	});
+	let p2 = Promise.resolve(p);
+	console.log(p === p2);// true
+
+	// 2. thenable对象指的是具有then方法的对象，比如下面这个对象。
+	// Promise.resolve方法会将这个对象转为Promise对象，然后就立即执行thenable对象的then方法。
+	let obj = {
+		then : function(resolve, reject){
+			resolve(12);
+		}
+	}
+	// 联系上下文注意这句话的语义，表达是，希望obj这个对象的pending状态发生改变，只要该obj能够实现pending的变化
+	// 1. 转为Promise对象，然后2执行回调函数，本质跟创建一个对象是一致的，
+	p = Promise.resolve(obj);
+	p.then(
+		(res) => console.log(res) // 12
+	);
+
+	// 3. 原始数值的话，直接创建promise, 且该promise的状态为resolve, 且顺便将参数传给他的回调函数
+	let p = Promise.resolve(1);
+	p.then(
+		(res) => console.log(res) // 1
+	);
+
+
+	// 4 if called without any arguments, it would return a promise instance which resolved
+	let p = Promise.resolve().then(() => console.log(1)); // 1
+	// 但是注意这个执行应该是在下个循环中生效，看下面这个例子
+	setTimeout(console.log, 0, 3); // 3
+	Promise.resolve().then(() => console.log(2)); //2
+	console.log(1);
+	// 上面输出的顺序不是像顺序流一样 3 2 1, 而是 1 2 3, 因为前面两个的生效都是在下个循环中生效。
+
+
+	// 如果指定时间内没有获得结果，就将Promise的状态变为reject，否则变为resolve。
+	function fetch(){
+		return new Promise(function(resolve, reject){
+			// 假设是一段很长的异步操作
+			console.log('正在fetching...');
+			setTimeout(resolve, 5000, 1);
+		});
+	}
+	// 执行fetch 的时候规定超过3秒则抛出错误，这里可以使用Promise.race来实现这个竞争
+	let fetch_promise = Promise.race([
+		fetch(),
+		new Promise(function(resolve, reject){
+			setTimeout(reject, 3000, new Error('超时了'))
+		}),
+	])
+	.then((res) => console.log(res))
+	.catch((err) => console.log(err))
+
+	// race中对于reject表现出也是竞争的样子，所有的resolve, reject参与竞争，谁先跑出来，随就组合的promise中的回调拿走，
+	// 当然不包括错误，错误的发生还是会优先被捕获
+	let m_p = [1, 2, 3].map(function(i){
+		return new Promise(function(resolve, reject){
+			if(3 == i){
+				setTimeout(reject, 100 * i, '3 reject');
+			}else{
+				setTimeout(resolve, 1000 * i, i);
+			}
+		}).then((i) => {return i});
+	})
+
+
+	let all_p = Promise.race(m_p)
+			.then((res) => console.log(res))
+			.catch((err) => console.log(err)); // Error: three error
+
+	// Promise.race 同all 差不多，但是，有竞争之意，也就是说，一个resolve，则会导致组合的resolve
+	let m_p = [1, 2, 3].map(function(i){
+		return new Promise(function(resolve, reject){
+			setTimeout(resolve, 1000 * i, "i am " + i);
+		}).then((i) => {return i});
+	})
+
+	let r_p = Promise.race(m_p)
+			  .then((i) => console.log(i)) // i am 1, 其他的promise就被抛弃了
+			  .catch((err) => console.log(err));
+
+	// 如果子promise中自己处理了错误，如定义了catch，则不会触发Promise.all的方法
+	let m_p = [1, 2, 3].map(function(i){
+		return new Promise(function(resolve, reject){
+			setTimeout(resolve, 1000 * i, i);
+			if(3 == i){
+				throw new Error('three error');
+			}
+		})
+		.then((i) => {return i})
+		.catch((err) => console.log('child catch Error: ' + err))
+	})
+	// 注意由于存在着 处理，所以依旧可以触发回调
+	let all_p = Promise.all(m_p)
+			.then((res) => console.log(res)) // [1, 2, undefined]
+			.catch((err) => console.log(err));
+
+	let m_p = [1, 2, 3].map(function(i){
+		return new Promise(function(resolve, reject){
+			setTimeout(resolve, 1000 * i, i);
+			if(3 == i){
+				throw new Error('three error');
+			}
+		}).then((i) => {return i});
+	})
+
+
+	let all_p = Promise.all(m_p)
+			.then((res) => console.log(res))
+			.catch((err) => console.log(err)); // Error: three error
+
+	// Promise.all方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。
+	// 组合promise的状态有两种情况：
+	// 1. 多个p同时窦唯resolve, 则组合则会触发组合p的resolve，多个p的返回参数包成数组用于回调函数的参数
+	// 2. 错个p存在reject, 则第一个reject的返回将被用于该回调函数的第一个参数
+	let m_p = [1, 2, 3].map(function(i){
+		return new Promise(function(resolve, reject){
+			setTimeout(resolve, 1000 * i, i);
+		}).then((i) => {return i});
+	})
+
+	let all_p = Promise.all(m_p)
+			.then((res) => console.log(res)) // [1, 2, 3]
+			.catch((err) => console.log(err));
+
+	// 有的时候需要知道错误发生的层级，已使用以下方法来定位
+	(new Promise())
+	.then()
+	.catch() // 捕获楼上的错误
+	.then()
+	.catch(); // 捕获then和catch的错误
+
+	// 如果没有定义catch，则promise流程中的错误不会终止流程
+	(new Promise(function(resolve, reject){
+		resolve(x + 1);
+	})).then(() => {});
+	console.log(123); // 123 还是能够答应出来， 但是我们发现程序抛出里异常
+
+	// 好习惯如，总是在catch中定义错误处理方式
+
+	// 多个promise中流程的抛出的错误都会被最后一个catch捕获到
+	(new Promise(function(resolve, reject){
+		resolve('hello world');
+	}))
+	.then(function(){
+		throw new Error('first error');
+	})
+	.then(function(){
+		// 被第一个错误终止了
+		throw new Error('second error');
+	})
+	.catch(
+		(err) => console.log(err) // Error: first error
+	);
+
+	// 如果Promise状态已经变成resolved，再抛出错误是无效的。
+
+	(new Promise(function(resolve, reject){
+		resolve('hello world');
+		throw new Error('new error');
+	}))
+	.then((res) => {console.log(res)}) // hello world
+	.catch((err) => console.log(err)); // 注意这里是捕获不到的
+
+	// resolve 触发的回调函数 如果报错也会被catch捕获到
+	(new Promise((resolve, reject) => {resolve('hello world');}))
+	.then(() => {hi})
+	.catch((err) => console.log(err)); // ReferenceError: hi is not defined
+
+
+	// Promise.prototype.catch方法是.then(null, rejection)的别名
+	function faker_get_json(){
+		return new Promise(function(resolve, reject){
+			reject(new Error('hello world'));
+		});
+	}
+	faker_get_json().then(null, (err) => console.log(err));  // Error: hello world
+	// 等同于下面代码
+	faker_get_json().then(null).catch((err) => console.log(err)); // Error: hello world
+	 */
+	</script>
+</html>
