@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<button v-on:click="count++">increase</button>
+		<button v-on:click="greet">greet</button>
+		<!-- 有时也需要在内联语句处理器中访问原生 DOM 事件。可以用特殊变量 $event 把它传入方法： -->
+		<button v-on:click="say('you', $event)">say you</button>
+		<button v-on:click="say('me', $event)">say me</button>
+		<p>count : {{count}}</p>
+
+		<!-- 设置事件的默认行为 -->
+		<!-- 阻止单击事件冒泡 -->
+		<a v-on:click.stop=""></a>
+		<!-- 提交事件不再重载页面 -->
+		<form v-on:submit.prevent=""></form>
+		<!-- 修饰符可以串联 -->
+		<a v-on:click.stop.prevent=""></a>
+		<!-- 只有修饰符 -->
+		<form v-on:submit.prevent></form>
+		<!-- 添加事件侦听器时使用事件捕获模式 -->
+		<div v-on:click.capture="">...</div>
+		<!-- 只当事件在该元素本身 (比如不是子元素) 触发时触发回调 -->
+		<div v-on:click.self="">...</div>
+
+
+		<!-- 对于键值可以很方便的绑定键值的监控 -->
+		<input v-on:keyup.13="say">
+		<!-- // 具有别名，13 => enter, 其他查看文档 -->
+		<input v-on:keyup.enter="say">
+
+		<!-- 修饰键用于alt + enter  https://cn.vuejs.org/v2/guide/events.html#修饰键 -->
+		<input v-on:click.ctrl="say('ctrl + enter')">
+
+	</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+	let app = new Vue({
+		el : "#app",
+		data : {
+			count : 0
+		},
+		methods : {
+			greet : function(){
+				alert('hello world');
+			},
+			say : function(msg, event){
+				alert(msg);
+				// 这个需要自己开启事件
+				console.log($event);
+			}
+		}
+	});
+	/**
+
+	 */
+
+
+
+
+</script>
+</html>

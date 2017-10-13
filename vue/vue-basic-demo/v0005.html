@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<button @click="toggle()">toggle show hello </button>
+		<div v-if="show">hello world</div>
+		<div v-else-if="show_again">hello lucy</div>
+		<div v-else>hello kitral</div>
+
+		<div v-if="str == 'c'">c</div>
+		<div v-else-if="str == 'b'">b</div>
+		<div v-else-if="str == 'a'">a</div>
+		<div v-else>no</div>
+
+		<template v-if="show">
+			<div>kitral</div>
+			<div>I am</div>
+		</template>
+		<template v-else>
+			<div>I am</div>
+			<div>kitral</div>
+		</template>
+
+		<!-- if语句进行渲染的时候会智能判断节点的，然后复用节点 -->
+		<!-- 因为是复用，所以你会发现实际切换的时候template节点并有实际的变化，只是placeholder的变化而已 -->
+		<template v-if="type == 'username'">
+			<label for="">username</label>
+			<input type="text" placeholder="username">
+		</template>
+		<template v-else>
+			<label for="">email</label>
+			<input type="text" placeholder="email">
+		</template>
+		<button @click="toggle_login_type()">toggle login type</button>
+
+		<!-- 当然我们也可以使用强制变化，不服用，使用key键标识在目标节点上，告诉vue不要复用 ,也就是会销毁该节点-->
+		<!-- <label> 元素仍然会被高效地复用，因为它们没有添加 key 属性。  -->
+		<template v-if="type == 'username'">
+			<label for="">username</label>
+			<input type="text" placeholder="username" key="input-username">
+		</template>
+		<template v-else>
+			<label for="">email</label>
+			<input type="text" placeholder="email" key="input-email">
+		</template>
+
+		<!-- 注意，v-show 不支持 <template> 语法，也不支持 v-else。 -->
+		<!-- show的和if-else的根本区别有： -->
+		<!-- 1. show初始化则构建，v-if是惰性的， -->
+		<!-- 2. show的变化是css的变化，v-if的变化是节点的重建和销毁。 -->
+		<div v-show="show">hello world</div>
+
+		<!-- 在 v-for 块中，我们拥有对父作用域属性的完全访问权限 -->
+		<ul>
+			<li v-for="(value, index) in items">{{name}} - {{index}} - {{value}}</li>
+		</ul>
+		<hr>
+		<ul>
+			<!-- 注意这里也是会复用的，除非使用key来标识 -->
+			<li v-for="(value, key, index) in object" key="value">{{value}} - {{key}} - {{index}}</li>
+			<!-- push(), pop(), shift(), unshift(), splice(), sort(), reverse() -->
+			<!-- 这些方法都会触发视图的更新 -->
+			<!-- app.items.pop(); -->
+
+			<!-- app.[1] = 3; 但是这种语法却是不被支持的能够动态解析的，可以使用如下替代 -->
+			<!-- Vue.set(app.items, 1, 2); -->
+			<!-- 对象也是这个道理，由于无法检测属性的添加，所以只能通过Vue.set的接口来实现 -->
+		</ul>
+		<!-- 循环到html block 也是使用template -->
+		<template v-for="(item, index) in items">
+			<div>{{item}}</div>
+			<div>{{index}}</div>
+		</template>
+		<hr>
+		<!-- v-for 同 v-if如果在同一层级， v-if的优先级比v-for 要低，可以用于for循环中的判断 -->
+		<template v-for="(item, index) in items" v-if="item != 2">
+			<div>{{item}}</div>
+			<div>{{index}}</div>
+		</template>
+	</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+
+	let app = new Vue({
+		el : '#app',
+		data : {
+			name : "kitral",
+			items : [
+				1, 2, 3
+			],
+			show : true,
+			show_again : false,
+			str : 'a',
+			type : 'email',
+			object : {
+				name : 'kitral',
+				age : '23'
+			}
+		},
+		methods : {
+			toggle : function(){
+				this.show = !this.show;
+				this.show_again = !this.show_again;
+			}
+			,toggle_login_type : function(){
+				this.type = 'email' === this.type ? 'username' : 'email';
+			}
+		}
+	});
+
+	/**
+
+	 */
+
+
+
+
+</script>
+</html>

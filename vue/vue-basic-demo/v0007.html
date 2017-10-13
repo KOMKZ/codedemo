@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<div>
+			<!-- 单行文本 -->
+			<input type="text" v-model="message">
+			{{message}}
+			<hr>
+
+			<!-- 多行文本 -->
+			<textarea v-model="multi_message"></textarea>
+			<p style="white-space:pre-line;">{{multi_message}}</p>
+			<hr>
+
+			<!-- checkbox -->
+			<input type="checkbox" v-model="checked">
+			{{checked}}
+			<hr>
+
+			<!-- multi checkbox -->
+			<input type="checkbox" v-model="multi_checked" value="a">a
+			<input type="checkbox" v-model="multi_checked" value="b">b
+			{{multi_checked}}
+			<hr>
+
+			<!-- radio -->
+			<input type="radio" v-model="single_selected" value="a"> a
+			<input type="radio" v-model="single_selected" value="b"> b
+			{{single_selected}}
+			<hr>
+
+			<!-- 单选列表 -->
+			<select name="" id="" v-model="selected">
+				<option value="a">a</option>
+				<option value="b">b</option>
+			</select>
+			{{selected}}
+			<hr>
+
+			<!-- 多选列表 -->
+			<select name="" id="" multiple v-model="multi_selected">
+				<option value="a">a</option>
+				<option value="b">b</option>
+				<option value="c">c</option>
+			</select>
+			{{multi_selected}}
+			<hr>
+
+			<!-- 动态选项 -->
+			<select name="" id="" v-model="selected">
+				<option v-bind:value="item" v-for="item in options">{{item}}</option>
+			</select>
+			{{selected}}
+			<hr>
+
+			<!-- 以上的例子的绑定都是静态值的绑定 -->
+			<input type="checkbox" v-model="single_selected" v-bind:true-value="checked_a_str" v-bind:false-value="checked_b_str"> {{single_selected}}
+			<hr>
+
+			<select name="" id="" v-model="select_object">
+				<option v-bind:value="{number:1}">1</option>
+				<option v-bind:value="{number:2}">2</option>
+			</select>
+			{{select_object}}
+			<hr>
+
+			<!-- // 修改input 为 change 时的改变 -->
+			<input type="text" v-model.lazy="message">
+			{{message}}
+			<hr>
+
+			<!-- 使用number修饰符能够使绑定的变量进行转成数字 类似的修饰符还有trim -->
+			<input type="text" v-model.number="number">
+			{{number}}
+
+
+		</div>
+	</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+	let app = new Vue({
+		el : '#app',
+		data : {
+			select_object : {
+				number : 2
+			},
+			options : [
+				"a", "b", "c"
+			],
+			number : 1,
+			checked_a_str : 'a',
+			checked_b_str : 'b',
+			checked : false,
+			message : 'hello world',
+			multi_message : "mulit line message",
+			multi_checked : [],
+			single_selected : 'a',
+			selected : 'b',
+			multi_selected : ["a", "b"]
+		}
+	});
+
+
+	/**
+
+	 */
+
+
+
+
+</script>
+</html>
