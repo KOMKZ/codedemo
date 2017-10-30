@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<currency-input label="价格" v-model="price"></currency-input>
+		<currency-input label="运费" v-model="shipping"></currency-input>
+		<currency-input label="折扣" v-model="discount"></currency-input>
+
+		<p>{{get_total}}</p>
+	</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script src="https://cdn.rawgit.com/chrisvfritz/5f0a639590d6e648933416f90ba7ae4e/raw/974aa47f8f9c5361c5233bd56be37db8ed765a09/currency-validator.js"></script>
+<script>
+// 尽管有 prop 和事件，但是有时仍然需要在 JavaScript 中直接访问子组件。为此可以使用 ref 为子组件指定一个引用 ID。例如：
+// ref的作用就是这个
+// $refs 只在组件渲染完成后才填充，并且它是非响应式的。它仅仅是一个直接操作子组件的应急方案——应当避免在模板或计算属性中使用 $refs。
+	Vue.component('currency-input', {
+		template : '\
+		<p>\
+		<label for="">{{label}}</label>\
+		<input type="text" \
+		ref="input" \
+		v-bind:value="value" \
+		v-on:input="update_value($event.target.value)"\
+		v-on:focus="select_str_all" \
+		v-on:blur="format_value" \
+		/>\
+		</p>\
+		\
+		',
+		props : {
+			label : {
+				type : String,
+				default : ''
+			},
+			value : {
+				type : Number,
+				default : 0
+			}
+		},
+		mounted : function(){
+			this.format_value();
+		},
+		methods : {
+			format_value : function(){
+				this.$refs.input.value = currencyValidator.format(this.value);
+			},
+			update_value : function(value){
+				var result = currencyValidator.parse(value, this.value);
+				if(result.warning){
+					this.$refs.input.value = result.value;
+				}
+				this.$emit('input', result.value);
+			},
+			select_str_all : function(event){
+				setTimeout(function(){
+					event.target.select();
+				}, 0);
+			}
+		}
+	});
+	let app = new Vue({
+		el : '#app',
+		data : {
+			price : 0,
+			shipping : 0,
+			discount : 0
+		},
+		methods : {
+			get_discount : function(){
+				return Math.abs(this.discount) * -1;
+			}
+		},
+		computed : {
+			get_total : function(){
+				return currencyValidator.format(
+					this.price +
+					this.shipping +
+					this.get_discount()
+				);
+			}
+		}
+	});
+	/**
+
+	 */
+
+
+
+
+</script>
+</html>

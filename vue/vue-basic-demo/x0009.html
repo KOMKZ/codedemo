@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<!-- 对于class 和 style 会合并到 组件的根节点上 -->
+		<person name="lartik" v-bind:age="23" class="big-succ"></person>
+	</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+	/**
+
+	 */
+	Vue.component('person', {
+		props : {
+			name : {
+				type : String,
+				required : true
+			}
+			,age : {
+				type : Number,
+				required : true
+			}
+		}
+		,template : "<div class=\"big\">你可以叫我{{name}}, {{age}}今年</div>"
+	});
+	let app = new Vue({
+		el : '#app',
+	});
+
+
+
+</script>
+</html>

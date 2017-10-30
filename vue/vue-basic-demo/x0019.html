@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<!-- <get-heading :level="1">h1 hello world</get-heading> -->
+		<!-- <get-heading2 :level="2">h2 hello world</get-heading2> -->
+		<!-- <anchored-heading :level="1">
+			abc
+		</anchored-heading> -->
+		<get-heading v-model="level"></get-heading>
+	</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script type="text/x-template" id="template-get-heading">
+	<h1 v-if="1 === level"><slot></slot></h1>
+	<h2 v-else-if="2 === level"><slot></slot></h2>
+	<h3 v-else-if="3 === level"><slot></slot></h3>
+	<h4 v-else-if="4 === level"><slot></slot></h4>
+	<h5 v-else><slot></slot></h5>
+</script>
+<script>
+	Vue.component('get-heading', {
+		render : function(createElement){
+			let self = this;
+			return createElement(
+				'input', {
+					domProps : {
+						value : self.value
+					},
+					on : {
+						input : function(event){
+							self.value = event.target.value;
+							self.$emit('input', event.target.value);
+						}
+					}
+				}
+			);
+		},
+		props : {
+			value : Number
+		}
+	});
+	let app = new Vue({
+		el : '#app',
+		data : {
+			level : 1
+		}
+	});
+
+	/**
+
+
+
+	// 实现v-if, v-else等的逻辑
+	Vue.component('get-heading', {
+		render : function(createElement){
+			let tpl = undefined;
+			if(this.items.length){
+				tpl = createElement('ul', this.items.map(function(item){
+					return createElement('li', item);
+				}));
+			}else{
+				tpl = createElement('ul', 'nothing');
+			}
+			return tpl;
+
+		},
+		props : {
+			items : {
+				default : [],
+				type : Array
+			}
+		}
+	});
+	let app = new Vue({
+		el : '#app',
+		data : {
+			items : [1, 2, 3]
+		}
+	});
+
+	// 将模板分类出去，这个大部分推荐的方法，但是有的时候如果我们自己通过函数来渲染出模板，
+	// 则会非常的灵活，可以通过render函数来实现
+	Vue.component('get-heading', {
+		template : '#template-get-heading',
+		props : {
+			level : {
+				required : true,
+				type : Number
+			}
+		}
+	});
+	// 这种通过js渲染出模板
+	Vue.component('get-heading2', {
+		render : function(createElement){
+			return createElement(
+				'h' + this.level,
+				this.$slots.default
+			);
+		},
+		props : {
+			level : {
+				required : true,
+				type : Number
+			}
+		}
+	})
+	let app = new Vue({
+		el : '#app'
+	});
+
+var getChildrenTextContent = function (children) {
+  return children.map(function (node) {
+	return node.children
+	  ? getChildrenTextContent(node.children)
+	  : node.text
+  }).join('')
+}
+Vue.component('anchored-heading', {
+  render: function (createElement) {
+	// create kebabCase id
+	var headingId = getChildrenTextContent(this.$slots.default)
+	  .toLowerCase()
+	  .replace(/\W+/g, '-')
+	  .replace(/(^\-|\-$)/g, '')
+	return createElement(
+	  'h' + this.level,
+	  [
+		createElement('a', {
+		  attrs: {
+			name: headingId,
+			href: '#' + headingId
+		  }
+		}, this.$slots.default)
+	  ]
+	)
+  },
+  props: {
+	level: {
+	  type: Number,
+	  required: true
+	}
+  }
+})
+	let app = new Vue({
+		el : '#app'
+	});
+
+		// 注意这个方法能够创建出层级的html
+		Vue.component('get-heading', {
+			render : function(createElement){
+				let h_tag = 'h' + this.level;
+				return createElement(
+					'div',
+					[
+						createElement(h_tag, 'hello world')
+					]
+				);
+			},
+			props : {
+				level : {
+					type : Number,
+					required : true
+				}
+			}
+		});
+
+		let app = new Vue({
+			el : '#app',
+			data : {
+			}
+		});
+
+
+			Vue.component('get-heading', {
+				render : function(createElement){
+					let h_tag = createElement('h' + this.level, 'hello world');
+					// Vnode都必须是唯一的，下面这种做法是错误的 ， todo，实际上没有报错
+					return createElement(
+						'div',
+						[
+							h_tag,
+							h_tag
+						]
+					);
+				},
+				props : {
+					level : {
+						type : Number,
+						required : true
+					}
+				}
+			});
+
+			let app = new Vue({
+				el : '#app',
+				data : {
+				}
+			});
+
+	 */
+
+
+
+
+
+
+</script>
+</html>

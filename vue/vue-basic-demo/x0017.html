@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+	/**
+
+	// 混合对象的使用
+	let myMix = {
+		created : function(){
+			this.say();
+		},
+		methods : {
+			say : function(){
+				console.log('hello world!');
+			}
+		}
+	}
+	let Component = Vue.extend({
+		mixins : [myMix]
+	});
+	new Component();// hello world
+
+
+	// 当组件和混合对象含有同名选项时，这些选项将以恰当的方式混合。比如，同名钩子函数将混合为一个数组，因此都将被调用。另外，混合对象的 钩子将在组件自身钩子 之前 调用
+	let mymix1 = {
+		created : function(){
+			console.log('mymix1 console');
+		}
+	};
+	let mymix2 = {
+		created : function(){
+			console.log('mymix2 console');
+		}
+	};
+	new Vue({
+		mixins : [mymix1, mymix2],
+		created : function(){
+			console.log('vue console');
+		}
+	}); // mymix1 console , mymix2 console , vue console
+
+
+
+	// 组件和混合对象的使用， 其中methods, components, directives 会被合并起来，其中如果命名冲突的话，使用组件的命名
+	// Vue.extend() 也使用同样的策略进行合并。
+	let mymix = {
+		methods : {
+			foo : function(){
+				console.log('from mymix: foo');
+			},
+			say : function(){
+				console.log('from mymix: say');
+			}
+		}
+	};
+	let vue = new Vue({
+		mixins : [mymix],
+		methods : {
+			bar : function(){
+				console.log('from component: bar');
+			},
+			say : function(){
+				console.log('from component: say');
+			}
+		}
+	});
+	vue.foo();// from mymix: foo
+	vue.bar();// from component: bar
+	vue.say();// from component: say
+
+	// 全局混合，会影响之后所有Vue实例的创建
+	Vue.mixin({
+		created : function(){
+			console.log(this.$options);
+		}
+	});
+	new Vue({
+		myOptions : {}   // 一旦创建就会有相关的打印
+	});
+	
+	 */
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<my-component></my-component>
+		一开始show是false， 所以没有必要渲染
+		<lazy-component v-if="show"></lazy-component>
+		<button v-on:click="show=!show">点击</button>
+	</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+	Vue.component("my-component", {
+		template : "<div>helle world</div>"
+	});
+	Vue.component('lazy-component', function(resolve, reject){
+		setTimeout(function(){
+			console.log(1);
+			resolve({
+				template : "<div>lazy hello world</div>",
+			});
+		}, 3000);
+	});
+	let app = new Vue({
+		el : '#app',
+		data : {
+			show : false
+		}
+	});
+	/**
+
+	 */
+
+
+
+
+</script>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<style>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 5s
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in below version 2.1.8 */ {
+  opacity: 0
+}
+</style>
+<body>
+	<div id="app">
+		<button v-on:click="show=!show">toggle</button>
+		<transition name="fade">
+			<p v-if="show">hello world</p>
+		</transition>
+	</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+	 // 也许你需要先了解一下css动画的内容
+	 // http://www.ruanyifeng.com/blog/2014/02/css_transition_and_animation.html
+	 
+	let app = new Vue({
+		el : '#app',
+		data : {
+			show : false
+		}
+	});
+	/**
+
+	 */
+
+
+
+
+</script>
+</html>

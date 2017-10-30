@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<div>{{total_count}}</div>
+		<counter-btn v-on:created="incrementBtnCount" v-on:increment="incrementCount"></counter-btn>
+		<counter-btn v-on:created="incrementBtnCount" v-on:increment="incrementCount"></counter-btn>
+		<counter-btn v-on:created="incrementBtnCount" v-on:increment="incrementCount"></counter-btn>
+	</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+	/**
+
+	 */
+	Vue.component('counter-btn', {
+		template : "<button v-on:click=\"incrementCount\">btn{{btn_count}} {{count}}</button>",
+		props : {
+		},
+		data : function(){
+			return {
+				count : 0,
+				index : 0,
+			};
+		},
+		methods : {
+			incrementCount : function(){
+				this.count += 1;
+				this.$emit('increment');
+			},
+		},
+		created : function(){
+			this.$emit('created');
+		}
+	});
+	let app = new Vue({
+		el : "#app",
+		data : {
+			total_count : 0,
+			btn_count : 0,
+		},
+		methods : {
+			incrementCount : function(){
+				this.total_count += 1;
+			},
+			incrementBtnCount : function(){
+				this.btn_count += 1;
+			}
+		}
+	});
+
+
+
+</script>
+</html>

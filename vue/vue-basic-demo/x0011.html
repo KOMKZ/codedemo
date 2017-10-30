@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<my-input v-on:input="print"></my-input>
+	</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+	// 这里这个例子重新处理了自己的input事件处理
+	// 如果需要显示值： this.$refs.input.value = value
+	// 注意需要把时间重新发送进去 ： this.$emit('input', value)
+	// 所以要让组件的 v-model 生效，它应该 (从 2.2.0 起是可配置的)：
+	// 接受一个 value prop
+	// 在有新的值时触发 input 事件并将新值作为参数
+	Vue.component('my-input', {
+		template : '\
+		<input ref="input" type="text" v-bind:value="value" v-on:input="update_value($event.target.value)"/>\
+		\
+		',
+		props : [
+			"value"
+		],
+		methods : {
+			update_value : function(value){
+				value = value
+						.trim()
+						.slice(
+							0, value.indexOf('.') === -1 ?
+							value.length :
+							value.indexOf('.')
+						);
+
+				let str = value ? value + '.zhong' : '';
+				this.$emit('input', str);
+			}
+		}
+	});
+	let app = new Vue({
+		el : '#app',
+		methods : {
+			print : function(value){
+				console.log(value);
+			}
+		}
+
+	});
+
+	/**
+
+	 */
+
+
+
+
+</script>
+</html>

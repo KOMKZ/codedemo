@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<input type="text" v-model="parent_message">
+		<!-- 此时app实例是my-component的父组件，组件的通信通过props定义的属性来传递，同时我们可以将父属性通过bind传递到子组件的prop中去 -->
+		<!-- 这里主义父组件中info属性，拥有name,age两个属性，如果想把一个对象的所有对象全部传递个子组件则使用v-bind="info", 但是需要注意的子组件必须注册name, age -->
+		<my-component message="hello world" v-bind:bind_p_message="parent_message" v-bind="info"></my-component>
+		<!-- 注意这两个传递的内容是不一样的， 第一个传递的是字符串1, 第二个是数值1, 第二个传递为字符串的写法是  v-bind:number="'1'" -->
+		<my-component number="1"></my-component>
+		<my-component v-bind:number="1"></my-component>
+
+	</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+	let child_component = {
+		template : "hello world",
+	};
+	// 组件的注册应该在根实例 初始化前进行注册
+	// 这种是全局注册的方式
+	Vue.component("my-component", {
+		template : "<div>{{number}} {{count}} {{message}} {{bind_p_message}} {{name}} {{age}}</div>",
+		// props 用于和父组件通信， 子组件要显式地用 props 选项声明它预期的数据：把这个东西想象成普通标签的属性即可
+		// props 的改变只有通过父组件，子组件不应该改变prop的值
+		// 以下两种情况，可能你会箱改变prop
+		// 1. Prop 作为初始值传入后，子组件想把它当作局部数据来用；
+		// 		1. 在data中定义自己的属性，然后使用prop的初始化值
+		// 2. Prop 作为原始数据传入，由子组件处理成其它数据输出。
+		// 		1. 通过定义计算属性，然后在计算属性中使用prop
+		props : [
+			"message",
+			"bind_p_message",
+			"name",
+			"age",
+			"number"
+		],
+		// 注意这是子组件自己的数据
+		data : function(){
+			return {
+				count : 0,
+			};
+		}
+	});
+	let app = new Vue({
+		el : '#app',
+		data : {
+			parent_message : 'parent_message',
+			info : {
+				name : 'kitral',
+				age : 23
+			},
+		},
+		components : {
+			// 注意， 这个子组件只能在父组件的模板中使用，就是不能像全局注册组件中那样使用 ？
+			'child-component' : child_component
+		}
+	});
+
+
+	/**
+
+	 */
+
+
+
+
+</script>
+</html>

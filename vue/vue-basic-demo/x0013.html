@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<my-component>
+			<!-- // 这里使用了单个插槽 -->
+			<p>parent html</p>
+		</my-component>
+		<hr>
+
+		<app-layout>
+			<!-- 这里使用的是具体名称 -->
+			<h1 solt="header">parent title</h1>
+			<p>hello world</p>
+			<p>parent footer</p>
+		</app-layout>
+		<hr>
+
+		<!-- 作用域插槽能够实现 子组件定义数据，模拟的定义则交给父组件自己来实现 -->
+		<child-component>
+			<template scope="props">
+				<p>这将出现在子组件的插槽中</p>
+				<p>{{props.text}}</p>
+			</template>
+		</child-component>
+		<hr>
+
+		<!-- // 注意下面的用法，结合楼上的一起看 -->
+		<custom-list :items="items">
+			<template scope="props" slot="item_slot">
+				<li>{{props.index}} {{props.text}}</li>
+			</template>
+		</custom-list>
+		<hr>
+
+		<!-- 动态组件， 多个组件挂载再同个节点上，实现节点上的组件切换 -->
+		<input type="radio" value="home" v-model="current_component">home
+		<input type="radio" value="contact" v-model="current_component">contact
+		<!-- keep-alive会缓冲组件的内容，而不会导致重新渲染 -->
+		<keep-alive>
+			<component v-bind:is="current_component"></component>
+		</keep-alive>
+		<hr>
+
+		<page-home></page-home>
+		<page-detail></page-detail>
+		<page-contact></page-contact>
+	</div>
+</body>
+<script src="./dist/vue.js"></script>
+<script>
+	Vue.component('custom-list', {
+		template : '\
+		<div>\
+			<ul>\
+				<slot v-for="(item, index) in items" :text="item" :index="index" name="item_slot"></slot>\
+			</ul>\
+		</div>\
+		',
+		props : [
+			'items'
+		],
+	});
+	Vue.component('child-component', {
+		template : '\
+		<div>\
+			<p>children text</p>\
+			<slot text="hello world"></slot>\
+		</div>\
+		'
+	});
+	Vue.component("my-component", {
+		template : '\
+		<div>\
+			<h2>this is my-component title</h2>\
+			<slot>\
+			<p>只有在父组件没有内容的时候才显示</p>\
+			</slot>\
+		</div>\
+		',
+	});
+	// 下面使用的是具体名陈的插槽
+	Vue.component("app-layout", {
+		template : '\
+		<div class="container">\
+			<header>\
+				<slot name="header"></slot>\
+			</header>\
+			<div>\
+				<slot>默认插槽</slot>\
+			</div>\
+			<footer>\
+				<slot name="footer"></slot>\
+			</footer>\
+		</div>\
+		'
+	});
+	let app = new Vue({
+		el : '#app',
+		data : {
+			items : [
+				9, 8, 7, 6, 5
+			],
+			current_component : 'home'
+		},
+		components : {
+			home : {
+				template : "<div>home</div>"
+			},
+			contact : {
+				template : "<div>contact</div>"
+			},
+			// 注意以下的方式都是组件名的形式，注意在html中都使用中括号
+			'page-home' : {
+				template : "<div>page-home</div>"
+			},
+			pageDetail : {
+				template : "<div>page-detail</div>"
+			},
+			PageContact : {
+				template : "<div>page-contact</div>"
+			}
+		}
+	});
+	/**
+
+	 */
+
+
+
+
+</script>
+</html>
