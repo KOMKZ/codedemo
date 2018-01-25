@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+
+    </body>
+    <script>
+    let get_json = function(url){
+        return new Promise(function(resolve, reject){
+            let client = new XMLHttpRequest();
+            client.open('GET', url);
+            client.responseType = "json";
+            client.onreadystatechange = handler;
+            client.setRequestHeader("Accept", "application/json");
+            client.send();
+            function handler(){
+                if(4 !== this.readyState){
+                    return ;
+                }
+                if(200 === this.status){
+                    resolve(this.response)
+                }else{
+                    reject(new Error(this.statusText));
+                }
+            }
+        });
+    }
+
+    get_json('http://codedemo.com/es6/reboot.json')
+    .then(
+        function(succ_res){
+            console.log('1 get_json');
+            // 如果需要继续异步操作，则继续返回 new promise,
+            // 然后使后续状态有这个这个promise来决定
+            return succ_res;
+        },
+        function(error_res){
+            console.log('1 get_json error');
+            return error_res;
+        }
+    )
+    // 注意 第一then 返回一个promise, 非get_json那个promise
+    // 然后会将第一个then中的resolve或者reject的返回作为 该promisede resovle
+    // 传递进去，所以此时下面这个then的error 永远都不会被处理到。
+    .then(
+        function(succ_res){
+            console.log("2 promise");
+            console.log(succ_res);
+        },
+        function(error_res){
+            console.log('2 promise error');
+            console.log(error_res);
+        }
+    )
+
+        /*
+
+        // resolve 和 reject 参数函数不会终结 Promise参数的执行
+        new Promise(function(resolve, reject){
+            resolve(2);
+            // 如果没有其他的逻辑， good habbit following
+            // return resolve(2);
+            console.log(1);
+        }).then(
+            (r) => console.log(r)
+        ); // 1, 2
+
+        // 注意promise的状态是可以用来传递的，就是说
+        // 假设p1 中的resolve 传入的参数是 p2, 则p1的状态由p2 决定
+        var p1 = new Promise(function(resolve, reject){
+            setTimeout(() => reject(new Error('p1 fail')), 3000);
+        });
+
+        var p2 = new Promise(function(resolve, reject){
+            setTimeout(() => resolve(p1), 1000, p1);
+        });
+
+        // 但实际程序3s之后输出 p1 fail,证明p2状态失效，由p1来决定。
+        p2.then((res) => console.log(res))
+          .catch((error) => console.log(error));
+
+        // 流水式获取一个json的方式
+        let get_json = function(url){
+            return new Promise(function(resolve, reject){
+                let client = new XMLHttpRequest();
+                client.open('GET', url);
+                client.responseType = "json";
+                client.onreadystatechange = handler;
+                client.setRequestHeader("Accept", "application/json");
+                client.send();
+                function handler(){
+                    if(4 !== this.readyState){
+                        return ;
+                    }
+                    if(200 === this.status){
+                        resolve(this.response)
+                    }else{
+                        reject(new Error(this.statusText));
+                    }
+                }
+            });
+        }
+
+        get_json('http://codedemo.com/es6/reboot.json').then(
+            function(succ_res){
+                console.log(succ_res);
+            },
+            function(error_res){
+                console.log(error_res);
+            }
+        )
+
+        // 创建一个构造promise对象, 创建完成之后立即执行
+        let promise = new Promise(function(resolve, reject){
+            if(1){
+                let succ_res = 1;
+                // make status change to resolve from pending
+                resolve(succ_res);
+            }else {
+                let error_res = 0;
+                // make status change to reject from pending
+                reject(error_res);
+            }
+        });
+        promise.then(function(succ_res){
+            console.log(succ_res);// 1
+        }, function(error_res){
+            console.log(error_res); // 0
+        });
+
+        // 楼上的另外的写法
+        // create a promise
+        function timeout_promise(timeout){
+            return new Promise((resolve, reject) => {
+                let succ_res = 1;
+                setTimeout(resolve, timeout, succ_res);
+            });
+        }
+        timeout_promise(100).then((succ_res) => {
+            // pending to resolve
+            console.log(succ_res); // 1
+        })
+
+        // 异步加载图片，使用promise，
+        // 通常这个场景是，很大的图片，加载完成之后我们需要做某种东西，之前的通用的做法
+        // 时在 image.onload 中设定回调，然后来实现，而promise的封装简单如下：
+        function load_image_async(url){
+            return new Promise(function(resolve, reject){
+                let img = new Image();
+                img.onload = function(){
+                    resolve(img);
+                };
+                img.onerror = function(){
+                    reject(new Error("Could not load img at " + url));
+                }
+                img.src = url;
+
+            });
+        }
+        // 使用如下
+        let url = "htto://myimg_url.com";
+        load_image_async(url).then((src) => {
+            console.log(img.src);
+        });
+
+         */
+
+
+
+
+    </script>
+</html>
